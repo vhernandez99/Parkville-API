@@ -27,7 +27,7 @@ namespace CinemaAPI.Controllers
         {
             var currentPageNumber= pageNumber ?? 1;
             var currentPageSize=pageSize ?? 5;
-            var movies =from movie in _dbContext.Movies
+            var movies =from movie in _dbContext.Movies.Where(x=>x.Status==1)
                         select new
                         {
                             Id = movie.Id,
@@ -85,7 +85,7 @@ namespace CinemaAPI.Controllers
         
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpPut("{id}")]
         public IActionResult DeleteMovie(int id)
         {
             var movie = _dbContext.Movies.Find(id);
@@ -101,11 +101,33 @@ namespace CinemaAPI.Controllers
             }
         }
 
-        
-        
-        
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpPut("{id}")]
+        public IActionResult UpdateImageBanner(int id, [FromForm] BannerImage movieObj)
+        {
+            var BannerImage = _dbContext.BannerImages.Find(id);
+            if (BannerImage == null)
+            {
+                return NotFound("No record found against this id");
+            }
+            else
+            {
+                var guid = Guid.NewGuid();
+                var filePath = Path.Combine("wwwroot", guid + ".jpg");
+                if (movieObj != null)
+                {
+                    var fileStream = new FileStream(filePath, FileMode.Create);
+                    movieObj.Image.CopyTo(fileStream);
+                    BannerImage.ImageUrl = filePath.Remove(0, 7);
+                }
+                _dbContext.SaveChanges();
+                return Ok("Record updated succesfully");
+            }
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
         public IActionResult DeleteImageBanner(int id)
         {
             var movie = _dbContext.Movies.Find(id);
@@ -115,7 +137,7 @@ namespace CinemaAPI.Controllers
             }
             else
             {
-                _dbContext.Remove(movie);
+                movie.Status = 0;
                 _dbContext.SaveChanges();
                 return Ok("Record deleted");
             }
@@ -153,7 +175,7 @@ namespace CinemaAPI.Controllers
             movieObj.PlayingDate3.ToShortDateString();
             movieObj.PlayingDate4.ToShortDateString();
             movieObj.PlayingDate5.ToShortDateString();
-
+            movieObj.Status = 1;
             movieObj.PlayingTime.ToShortTimeString();
             movieObj.PlayingTime2.ToShortTimeString();
             movieObj.PlayingTime3.ToShortTimeString();
@@ -198,29 +220,7 @@ namespace CinemaAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public IActionResult UpdateImageBanner(int id, [FromForm] BannerImage movieObj)
-        {
-            var BannerImage = _dbContext.BannerImages.Find(id);
-            if (BannerImage == null)
-            {
-                return NotFound("No record found against this id");
-            }
-            else
-            {
-                var guid = Guid.NewGuid();
-                var filePath = Path.Combine("wwwroot", guid + ".jpg");
-                if (movieObj != null)
-                {
-                    var fileStream = new FileStream(filePath, FileMode.Create);
-                    movieObj.Image.CopyTo(fileStream);
-                    BannerImage.ImageUrl = filePath.Remove(0, 7);
-                }
-                _dbContext.SaveChanges();
-                return Ok("Record updated succesfully");
-            }
-        }
+        
 
         [Authorize(Roles = "Admin")]
         [HttpPost]

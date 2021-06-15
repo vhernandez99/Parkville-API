@@ -31,6 +31,7 @@ namespace CinemaAPI.Models
         public string Genre { get; set; }
         public string TrailorUrl { get; set; }
         public string ImageUrl { get; set; }
+        public int Status { get; set; } 
 
         [NotMapped]
         public IFormFile Image { get; set; }
