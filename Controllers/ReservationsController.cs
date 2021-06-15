@@ -81,6 +81,7 @@ namespace CinemaAPI.Controllers
         }
         [Authorize(Roles ="Admin")]
         [HttpGet("{id}")]
+        //borrar
         public IActionResult GetReservationDetail(int id)
         {
             var reservationResult = (from reservation in _dbContext.Reservations
