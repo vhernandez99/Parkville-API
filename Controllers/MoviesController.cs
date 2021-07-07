@@ -84,22 +84,22 @@ namespace CinemaAPI.Controllers
 
         
 
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public IActionResult DeleteMovie(int id)
-        {
-            var movie = _dbContext.Movies.Find(id);
-            if (movie == null)
-            {
-                return NotFound("No record found against this id");
-            }
-            else
-            {
-                _dbContext.Remove(movie);
-                _dbContext.SaveChanges();
-                return Ok("Record deleted");
-            }
-        }
+        //[Authorize(Roles = "Admin")]
+        //[HttpPut("{id}")]
+        //public IActionResult DeleteMovie(int id)
+        //{
+        //    var movie = _dbContext.Movies.Find(id);
+        //    if (movie == null)
+        //    {
+        //        return NotFound("No record found against this id");
+        //    }
+        //    else
+        //    {
+        //        _dbContext.Remove(movie);
+        //        _dbContext.SaveChanges();
+        //        return Ok("Record deleted");
+        //    }
+        //}
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
@@ -128,7 +128,7 @@ namespace CinemaAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public IActionResult DeleteImageBanner(int id)
+        public IActionResult DeleteMovie(int id)
         {
             var movie = _dbContext.Movies.Find(id);
             if (movie == null)
