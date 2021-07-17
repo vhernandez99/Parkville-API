@@ -53,9 +53,10 @@ namespace CinemaAPI.Controllers
         public IActionResult Login([FromBody]User user)
         {
             var userEmail= _dbcontext.Users.FirstOrDefault(u => u.Email == user.Email);
-            if (string.IsNullOrEmpty(user.TokenFirebase))
+            if (userEmail.TokenFirebase!= user.TokenFirebase)
             {
-
+                userEmail.TokenFirebase = user.TokenFirebase;
+                _dbcontext.SaveChanges();
             }
             if (userEmail == null)
             {
@@ -83,6 +84,7 @@ namespace CinemaAPI.Controllers
                 User_Name = userEmail.Name
             });
         }
+        
 
         [HttpGet]
         public IActionResult GetAllTokens()

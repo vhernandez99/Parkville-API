@@ -220,8 +220,6 @@ namespace CinemaAPI.Controllers
             }
         }
 
-        
-
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult AddImageBanner([FromForm] BannerImage movieObj)

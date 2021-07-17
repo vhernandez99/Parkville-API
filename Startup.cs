@@ -34,7 +34,7 @@ namespace CinemaAPI
 
             services.AddControllers();
             services.AddMvc().AddXmlSerializerFormatters();
-            services.AddDbContext<CinemaDbContext>(option=> option.UseSqlServer(@"Data Source = 67.225.147.180, 783; Initial Catalog = vhern99_AppsDB; User ID = vhern99_vhern99; Password = Victorhdz123;"));
+            services.AddDbContext<CinemaDbContext>(option=> option.UseSqlServer(@"Data Source = 69.167.149.20,782; Initial Catalog = parkville_ParkvilleDB; User ID = parkville_parkville; Password = A240616p;"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {
